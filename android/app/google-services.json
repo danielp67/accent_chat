@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "510284051462",
+    "project_id": "chatify-faad3",
+    "storage_bucket": "chatify-faad3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510284051462:android:83a520e2fb308376523f87",
+        "android_client_info": {
+          "package_name": "com.example.accent_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIddmx-oJ8RoZVqPDhLhet-ICG8YuIDLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
