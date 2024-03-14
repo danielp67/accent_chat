@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 
+import '../services/snackbar_service.dart';
+
 enum AuthStatus {
   NotAuthenticated,
   Authenticating,
@@ -28,10 +30,14 @@ class AuthProvider extends ChangeNotifier {
           email: email, password: password);
       user = result.user!;
       status = AuthStatus.Authenticated;
-      print('logging successs');
+            print('logging successs');
+
+      SnackBarService.instance.showSnackBarSuccess('Connecté');
     } catch (e) {
       status = AuthStatus.Error;
-      print(e);
+            print(e);
+
+      SnackBarService.instance.showSnackBarError('Login failed, please retry');
     }
     notifyListeners();
   }

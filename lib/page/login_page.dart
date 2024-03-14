@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
+import '../services/snackbar_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,6 +28,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
+
+    SnackBarService.instance.buildContext = context;
+
     return Scaffold(
       body: Align(
         alignment: Alignment.center,
@@ -77,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
             style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
           ),
           Text(
-            "Please login to your account :",
+            "Please login to your account",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200),
           ),
         ],
@@ -154,7 +158,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginButton() {
-    return Container(
+    return _auth.status == AuthStatus.Authenticating ?
+      Center(child: CircularProgressIndicator()) :
+      Container(
       height: _deviceHeight * 0.06,
       width: _deviceWidth,
       padding: EdgeInsets.symmetric(
