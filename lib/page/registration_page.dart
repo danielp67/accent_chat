@@ -1,78 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import '../services/snackbar_service.dart';
 import '../services/navigation_service.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
+class RegistrationPage extends StatefulWidget{
+  const RegistrationPage({super.key});
+  
   @override
   State<StatefulWidget> createState() {
-    return _LoginPageState();
+   return _RegistrationPageState();
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage>{
   late double _deviceHeight;
   late double _deviceWidth;
   late GlobalKey<FormState> _formKey;
-  late AuthProvider _auth;
+  //late AuthProvider _auth;
+  String _name = '';
   String _email = '';
   String _password = '';
 
-  _LoginPageState() {
+  _RegistrationPageState() {
     _formKey = GlobalKey<FormState>();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
 
-    SnackBarService.instance.buildContext = context;
-
     return Scaffold(
-      body: Align(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Container(
         alignment: Alignment.center,
-        child: ChangeNotifierProvider<AuthProvider>.value(
-          value: AuthProvider.instance,
-          child: _loginPageUI(),
-          )
-        
+        child: signupPageUI(),
+      ),
+    );
+  }
+  
+  Widget signupPageUI() {
+    return Container(
+      height: _deviceHeight * 0.9,
+      padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.1),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+           _headingWidget(),
+           _inputForm()
+        ],
       ),
     );
   }
 
-  Widget _loginPageUI() {
-    print(_email);
-    print(_password);
-
-    return Builder(
-      builder: (context) {
-         _auth = Provider.of<AuthProvider>(context);
-         print(_auth);
-
-        return Container(
-          // color: Colors.red,
-          height: _deviceHeight * 0.60,
-          padding: EdgeInsets.symmetric(horizontal: _deviceWidth * 0.10),
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _headingWidget(),
-               _inputForm()
-               ],
-          ),
-        );
-      }
-    );
-  }
-
-  Widget _headingWidget() {
+Widget _headingWidget() {
     return Container(
       height: _deviceHeight * 0.2,
       child: const Column(
@@ -81,36 +62,80 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Welcome back !",
+            "Let's get going !",
             style: TextStyle(fontSize: 35, fontWeight: FontWeight.w700),
           ),
           Text(
-            "Please login to your account",
+            "Please enter your details",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200),
           ),
         ],
       ),
     );
   }
-
+  
   Widget _inputForm() {
     return Container(
-      height: _deviceHeight * 0.40,
+      height: _deviceHeight * 0.55,
       child: Form(
         key: _formKey,
         onChanged: () {
           _formKey.currentState!.save();
-        },
+        }, 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            _imageSelectorWidget(),
+            _nameTextField(),
             _emailTextField(),
-            _passwordTextField(),
-            _loginButton(),
-            _registerButton(),
+             _passwordTextField(),
+             _registerButton(),
+             _loginButton(),
           ],
+        ),
+      ),
+    );
+  }
+  
+  Widget _imageSelectorWidget() {
+    return Center(
+      child: Container(
+        height: _deviceHeight * 0.10,
+        width:  _deviceHeight * 0.10,
+        decoration: BoxDecoration(
+          color:Colors.transparent,
+          borderRadius: BorderRadius.circular(500),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(
+                        "https://cdn0.iconfinder.com/data/icons/occupation-002/64/programmer-programming-occupation-avatar-512.png",
+          ),
+          ),
+           ),
+      ),
+    );
+  }
+  
+
+  Widget _nameTextField() {
+    return TextFormField(
+      autocorrect: false,
+      style: TextStyle(color: Colors.white),
+      validator: (input) {
+        return input!.isNotEmpty ? null : 'Enter valide name';
+      },
+      onSaved: (input) {
+        setState(() {
+          _name = input!;
+        });
+      },
+      cursorColor: Colors.white,
+      decoration: const InputDecoration(
+        hintText: "Name",
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
         ),
       ),
     );
@@ -119,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _emailTextField() {
     return TextFormField(
       autocorrect: false,
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
       validator: (input) {
         return input!.isNotEmpty && input.contains('@') ? null : 'Enter valide email';
       },
@@ -129,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       },
       cursorColor: Colors.white,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: "Email",
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
@@ -142,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       autocorrect: false,
       obscureText: true,
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
       validator: (input) {
                 return input!.isNotEmpty ? null : 'Enter valide password';
       },
@@ -152,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       },
       cursorColor: Colors.white,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: "Password",
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
@@ -161,9 +186,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _loginButton() {
-    return _auth.status == AuthStatus.Authenticating ?
-      Center(child: CircularProgressIndicator()) :
+  Widget _registerButton() {
+    return //_auth.status == AuthStatus.Authenticating ?
+     // Center(child: CircularProgressIndicator()) :
       Container(
       height: _deviceHeight * 0.06,
       width: _deviceWidth,
@@ -175,12 +200,12 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           if(_formKey.currentState!.validate())
           {
-              _auth.loginUserWithEmailAndPassword(_email, _password);
+            //  _auth.loginUserWithEmailAndPassword(_email, _password);
           }
         },
         color: Colors.blue,
-        child: Text(
-          "LOGIN",
+        child: const Text(
+          "REGISTER",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
@@ -190,17 +215,17 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _registerButton() {
+  Widget _loginButton() {
     return GestureDetector(
       onTap: () {
-        NavigationService.instance.navigateTo("register");
+        NavigationService.instance.goBack();
         print('hemmo!');
       },
       child: Container(
         height: _deviceHeight * 0.06,
         width: _deviceWidth,
-        child: Text(
-          "REGISTER",
+        child: const Text(
+          "LOGIN",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 15,
@@ -211,4 +236,5 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  
 }
