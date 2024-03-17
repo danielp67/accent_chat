@@ -32,8 +32,8 @@ export const onConversationsCreated = functions.firestore.
       const members = data.members;
       for (let index = 0; index < members.length; index++) {
         const currentUserID = members[index];
-        const remainingUserIDs = members.
-          filter((u: string) => u !== currentUserID);
+        const remainingUserIDs = members
+          .filter((u: string) => u !== currentUserID);
         remainingUserIDs.forEach((m: string) => {
           return admin.firestore().collection("Users")
             .doc(m).get().then((_doc) => {
