@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../models/contact.dart';
+
 class DBService {
   static DBService instance = DBService();
   late FirebaseFirestore db;
@@ -22,4 +24,14 @@ Future<void> createUserInDB(String uid, String name, String email, String imageU
    print(e);
  }
  }
+
+
+
+Stream<Contact> getUserData(String userID){
+  var _ref = db.collection(userCollection).doc(userID);
+  return _ref.get().asStream().map((snapshot){
+    return Contact.fromFirestore(snapshot);
+  });
+  }
+
 }
