@@ -27,9 +27,9 @@ Future<void> createUserInDB(String uid, String name, String email, String imageU
 
 
 
-Stream<Contact> getUserData(String userID){
-  var _ref = db.collection(userCollection).doc(userID);
-  return _ref.get().asStream().map((snapshot){
+Stream<Contact> getUserData(String? userID){
+  var ref = db.collection(userCollection).doc(userID);
+  return ref.get().asStream().map((snapshot){
     return Contact.fromFirestore(snapshot);
   });
   }

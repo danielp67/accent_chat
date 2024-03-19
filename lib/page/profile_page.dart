@@ -5,13 +5,15 @@ import 'package:provider/provider.dart';
 
 import '../models/contact.dart';
 import '../providers/auth_provider.dart';
+import '../services/navigation_service.dart';
 
 class ProfilePage extends StatelessWidget{
  //ProfilePage({super.key, required this._height, required this._width});
   final double _height;
   final double _width;
-  
- const ProfilePage(this._height, this._width, {super.key});
+  late AuthProvider _auth;
+ 
+  ProfilePage(this._height, this._width, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +34,10 @@ class ProfilePage extends StatelessWidget{
   Widget _profilePageUI() {
     return Builder(
       builder: (BuildContext context) {
-        var _auth = Provider.of<AuthProvider>(context);
+         _auth = Provider.of<AuthProvider>(context);
 
         return StreamBuilder<Contact>(
-          stream: DBService.instance.getUserData(_auth.user!.uid),
+          stream: DBService.instance.getUserData(_auth.user?.uid),
           builder: (context, snapshot) {
             var userData = snapshot.data;
           
@@ -115,7 +117,12 @@ class ProfilePage extends StatelessWidget{
       height: _height * 0.06,
       width: _width * 0.8,
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () {
+          _auth.logoutUser(
+         // ()=>  NavigationService.instance.navigateToReplacement('login')
+          
+          );
+        },
         color: Colors.red,
         child: const Text(
           "LOGOUT",

@@ -82,4 +82,29 @@ class AuthProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+
+  void logoutUser(
+    //Future<void> Function() onSucces
+    ) async {
+    status = AuthStatus.Authenticating;
+    notifyListeners();
+    try {
+      await _auth.signOut();
+      user = null;
+      status = AuthStatus.NotAuthenticated;
+      //await onSucces();
+      await NavigationService.instance.navigateToReplacement('login');
+      SnackBarService.instance.showSnackBarSuccess('Déconnecté');
+      print('logouuut');
+    } catch (e) {
+      status = AuthStatus.Error;
+      print(e);
+      SnackBarService.instance.showSnackBarError('Erreur à la déconnexion');
+    }
+    notifyListeners();
+  }
+
+
+
 }
