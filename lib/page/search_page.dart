@@ -92,6 +92,13 @@ class SearchPage extends StatefulWidget {
             stream: DBService.instance.getUsersInDB(_searchName),
             builder: (context, snapshot) {
               var usersData = snapshot.data;
+            
+              if(usersData != null){
+                usersData.removeWhere(
+                (element) => element.id == _auth.user?.uid
+              );
+              }
+              
               return snapshot.hasData && usersData!= null ? Container(
         height: widget._height * 0.7,
         child: ListView.builder(
@@ -99,7 +106,8 @@ class SearchPage extends StatefulWidget {
           itemBuilder: (context, index) {
             var userData = usersData[index];
             var currentDatetime = DateTime.now();
-            var isUserActive = userData.lastSeen.toDate().isBefore(currentDatetime.subtract(const Duration(hours: 1)));
+            var isUserActive = userData.lastSeen.toDate()
+            .isAfter(currentDatetime.subtract(const Duration(hours: 1)));
             return ListTile(
               title: Text(usersData[index].name),
               leading: Container(

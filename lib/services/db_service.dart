@@ -28,6 +28,13 @@ Future<void> createUserInDB(String uid, String name, String email, String imageU
  }
 
 
+Future<void> updateLastSeen(String userID) {
+ var ref = db.collection(userCollection).doc(userID);
+
+  return ref.update({
+    "lastSeen": DateTime.now()
+  });
+}
 
 Stream<Contact> getUserData(String? userID){
   var ref = db.collection(userCollection).doc(userID);
@@ -55,7 +62,10 @@ return ref.snapshots().map((snapshot) {
 
 Stream<List<Contact>> getUsersInDB(String searchName) {
   var ref = db
-      .collection(userCollection);
+      .collection(userCollection)
+      .where("name", isGreaterThanOrEqualTo: searchName)
+      .where("name", isLessThan: '${searchName}z')
+      ;
       
   return ref.get().asStream().map((snapshot) {
     return snapshot.docs.map((e) => 

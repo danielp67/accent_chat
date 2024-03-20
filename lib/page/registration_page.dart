@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../services/navigation_service.dart';
 import '../services/media_service.dart';
 import '../services/cloud_storage_service.dart';
+import '../services/snackbar_service.dart';
 
 
 class RegistrationPage extends StatefulWidget {
@@ -50,6 +51,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget signupPageUI() {
     return Builder(builder: (BuildContext context) {
+      SnackBarService.instance.buildContext = context;
       auth = Provider.of<AuthProvider>(context);
       return Container(
         height: _deviceHeight * 0.9,
@@ -58,7 +60,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[_headingWidget(), _inputForm()],
+          children: <Widget>[
+            _headingWidget(),
+             _inputForm()
+             ],
         ),
       );
     });
@@ -115,7 +120,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       child: GestureDetector(
         onTap: () async {
           File? imageFile = await MediaService.instance.getImageFromLibrary();
-print(imageFile);
+
           setState(() {
             _image = imageFile;
           });
@@ -243,7 +248,7 @@ print(imageFile);
     return GestureDetector(
       onTap: () {
         NavigationService.instance.goBack();
-print('hemmo!');
+
       },
       child: Container(
         height: _deviceHeight * 0.06,

@@ -1,3 +1,5 @@
+import 'package:accent_chat/services/db_service.dart';
+
 import '../services/navigation_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -24,10 +26,9 @@ class AuthProvider extends ChangeNotifier {
     _checkCurrentUserIsAuthenticated();
   }
 
-  void _autoLogin(){
-    print('autttoolo');
+  void _autoLogin() async {
     if(user != null){
-      print(user);
+      await DBService.instance.updateLastSeen(user!.uid);
       NavigationService.instance.navigateToReplacement('home');
     }
   }
@@ -48,9 +49,8 @@ class AuthProvider extends ChangeNotifier {
           email: email, password: password);
       user = result.user!;
       status = AuthStatus.Authenticated;
-            print('logging successs');
-
       SnackBarService.instance.showSnackBarSuccess('Connecté');
+      await DBService.instance.updateLastSeen(user!.uid);
       NavigationService.instance.navigateToReplacement('home');
     } catch (e) {
       status = AuthStatus.Error;

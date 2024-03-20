@@ -55,7 +55,7 @@ class RecentConversationsPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(userData![index].image),
+                          image: NetworkImage(userData[index].image),
                         ),
                       ),
                     ),
@@ -65,7 +65,9 @@ class RecentConversationsPage extends StatelessWidget {
                   );
                 }), 
             ) :
-            const SpinKitWanderingCubes(
+            userData != null ? const Center(
+              child: Text('No Conversations')
+              ) :  const SpinKitWanderingCubes(
               color: Colors.blue,
               size: 50.0,
             );
@@ -82,18 +84,14 @@ class RecentConversationsPage extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
+        const Text(
+          "Last Message",
+          style: TextStyle(fontSize: 15),
+        ),
         Text(
           timeago.format(lastMessageTimestamp.toDate()),
           style: const TextStyle(fontSize: 15),
         ),
-        Container(
-          height: 12,
-          width: 12,
-          decoration: BoxDecoration(
-            color: timeDifference.inHours > 1 ? Colors.green : Colors.red,
-            borderRadius: BorderRadius.circular(100),
-          )
-        )
       ]
     );
   }
