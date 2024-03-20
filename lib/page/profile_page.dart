@@ -7,7 +7,6 @@ import '../models/contact.dart';
 import '../providers/auth_provider.dart';
 
 class ProfilePage extends StatelessWidget{
- //ProfilePage({super.key, required this._height, required this._width});
   final double _height;
   final double _width;
   late AuthProvider _auth;
@@ -65,16 +64,16 @@ class ProfilePage extends StatelessWidget{
     );
   }
 
-  Widget _userImageWidget(String _image) {
-    double _imageRadius = _height * 0.20;
+  Widget _userImageWidget(String image) {
+    double imageRadius = _height * 0.20;
     return Container(
-      height: _imageRadius,
-      width: _imageRadius,
+      height: imageRadius,
+      width: imageRadius,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(_imageRadius),
+        borderRadius: BorderRadius.circular(imageRadius),
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: NetworkImage(_image)
+          image: NetworkImage(image)
         )
       )
     );
@@ -88,7 +87,7 @@ class ProfilePage extends StatelessWidget{
       child: Text(
         userName,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 30,
           color: Colors.white,
         )
@@ -103,7 +102,7 @@ class ProfilePage extends StatelessWidget{
       child: Text(
         email,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 15,
           color: Colors.white,
         )

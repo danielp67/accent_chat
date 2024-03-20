@@ -42,22 +42,27 @@ Stream<List<ConversationSnippet>> getUserConversation(String userID) {
   var ref = db
       .collection(userCollection)
       .doc(userID)
-      .collection(conversationsCollection)
-      ;
-      print(ref);
- /*  return ref.orderBy('timeStamp', descending: true).snapshots().map((snapshot) {
-    return snapshot.docs.map((document) {
-      return ConversationSnippet.fromFirestore(document);
-    }).toList(); */
+      .collection(conversationsCollection);
+      
 return ref.snapshots().map((snapshot) {
     return snapshot.docs.map((document) {
       return ConversationSnippet.fromFirestore(document);
     }).toList();
   });
-
-  
 }
 
+
+
+Stream<List<Contact>> getUsersInDB(String searchName) {
+  var ref = db
+      .collection(userCollection);
+      
+  return ref.get().asStream().map((snapshot) {
+    return snapshot.docs.map((e) => 
+       Contact.fromFirestore(e)
+    ).toList();
+  });
+}
 
 
 }

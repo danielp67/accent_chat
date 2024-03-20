@@ -115,7 +115,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       child: GestureDetector(
         onTap: () async {
           File? imageFile = await MediaService.instance.getImageFromLibrary();
-          print(imageFile);
+print(imageFile);
           setState(() {
             _image = imageFile;
           });
@@ -243,7 +243,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return GestureDetector(
       onTap: () {
         NavigationService.instance.goBack();
-        print('hemmo!');
+print('hemmo!');
       },
       child: Container(
         height: _deviceHeight * 0.06,
