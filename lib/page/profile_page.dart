@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../models/contact.dart';
 import '../providers/auth_provider.dart';
-import '../services/navigation_service.dart';
 
 class ProfilePage extends StatelessWidget{
  //ProfilePage({super.key, required this._height, required this._width});

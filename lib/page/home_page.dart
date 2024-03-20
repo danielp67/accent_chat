@@ -1,4 +1,5 @@
 import 'package:accent_chat/page/profile_page.dart';
+import 'package:accent_chat/page/recent_conversations_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     controller: _tabController,
     children: <Widget>[
       ProfilePage(_heigth, _width),
-      ProfilePage(_heigth, _width),
+      RecentConversationsPage(_heigth, _width),
       ProfilePage(_heigth, _width),
     ]);
  }
