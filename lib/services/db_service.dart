@@ -75,4 +75,17 @@ Stream<List<Contact>> getUsersInDB(String searchName) {
 }
 
 
+Stream<Conversation> getConversation(String conversationID) {
+  var ref = db
+      .collection(conversationsCollection)
+      .doc(conversationID);
+      print(ref);
+            print('hihiii');
+
+  return ref.snapshots().map((snapshot) {
+  //  print(snapshot);
+    return Conversation.fromFirestore(snapshot);
+  });
+}
+
 }

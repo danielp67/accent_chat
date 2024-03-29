@@ -69,7 +69,7 @@ class AuthProvider extends ChangeNotifier {
           email: email, password: password);
       user = result.user!;
       status = AuthStatus.Authenticated;
-            print(result);
+           
       await onSucces(user!.uid);
       SnackBarService.instance.showSnackBarSuccess('Compte crée');
       NavigationService.instance.goBack();
@@ -96,7 +96,7 @@ class AuthProvider extends ChangeNotifier {
       //await onSucces();
       await NavigationService.instance.navigateToReplacement('login');
       SnackBarService.instance.showSnackBarSuccess('Déconnecté');
-      print('logouuut');
+      
     } catch (e) {
       status = AuthStatus.Error;
       print(e);

@@ -54,7 +54,7 @@ class ProfilePage extends StatelessWidget{
                   ]
                 ),
               ),
-            ) : SpinKitWanderingCubes(
+            ) : const SpinKitWanderingCubes(
               color: Colors.blue,
               size: 50.0,
             );

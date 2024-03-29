@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       },
       cursorColor: Colors.white,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: "Email",
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       autocorrect: false,
       obscureText: true,
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
       validator: (input) {
                 return input!.isNotEmpty ? null : 'Enter valide password';
       },
@@ -152,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
         });
       },
       cursorColor: Colors.white,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: "Password",
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         },
         color: Colors.blue,
-        child: Text(
+        child: const Text(
           "LOGIN",
           style: TextStyle(
             fontSize: 18,
@@ -199,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Container(
         height: _deviceHeight * 0.06,
         width: _deviceWidth,
-        child: Text(
+        child: const Text(
           "REGISTER",
           textAlign: TextAlign.center,
           style: TextStyle(

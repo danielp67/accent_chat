@@ -1,3 +1,5 @@
+import 'package:accent_chat/page/conversation_page.dart';
+import 'package:accent_chat/services/navigation_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -44,8 +46,16 @@ class RecentConversationsPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
-                    
-                    },
+                      NavigationService.instance.navigateToRoute(
+                        MaterialPageRoute(builder: (context) => 
+                        ConversationPage(
+                           userData[index].conversationID,
+                           userData[index].id,
+                           userData[index].image,
+                           userData[index].name,
+                        ),
+                        ),
+                      );},
                     title: Text(userData[index].name),
                     subtitle: Text(userData[index].lastMessage),
                     leading: Container(
