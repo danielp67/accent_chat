@@ -1,10 +1,16 @@
 
 import 'package:accent_chat/models/conversation.dart';
+import 'package:accent_chat/models/message.dart';
 import 'package:accent_chat/services/db_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../providers/auth_provider.dart';
 
 
 class ConversationPage extends StatefulWidget {
@@ -27,6 +33,8 @@ class _ConversationPageState extends State<ConversationPage> {
   late double _deviceHeight;
   late double _deviceWidth;
 
+  late AuthProvider auth;
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -37,16 +45,24 @@ class _ConversationPageState extends State<ConversationPage> {
         backgroundColor: const Color.fromRGBO(31, 31, 1, 1.0),
         title: Text(widget.receiverName),
       ),
-      body: _conversationPageUI(),
+      body: ChangeNotifierProvider<AuthProvider>.value(
+        value: AuthProvider.instance,
+        child: _conversationPageUI(),
+      )
     );
   }
 
   Widget _conversationPageUI() {
-   return Stack(
-    clipBehavior: Clip.none,
-     children: <Widget>[
-       _messageListView(),
-     ]
+   return Builder(
+     builder: (context) {
+       auth = Provider.of<AuthProvider>(context);
+       return Stack(
+        clipBehavior: Clip.none,
+         children: <Widget>[
+           _messageListView(),
+         ]
+       );
+     }
    ) ;
   }
   
@@ -63,7 +79,8 @@ class _ConversationPageState extends State<ConversationPage> {
             itemCount: conversationData!.messages.length,
             itemBuilder: (context, index) {
               var message = conversationData.messages[index];
-              return _textMessageBubble(true , message["message"], message["timestamp"]);
+              bool isSender = message["senderID"] == auth.user!.uid;
+              return _messageListViewChild(isSender, message);
             }
           ):
           const SpinKitWanderingCubes(
@@ -75,6 +92,39 @@ class _ConversationPageState extends State<ConversationPage> {
     );
   }
   
+
+Widget _messageListViewChild(bool isSender,  message) {
+  return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    !isSender ? _userImageWidget() : Container(),
+                    _textMessageBubble(isSender , message["message"], message["timestamp"]),
+                  ],
+                ),
+              );
+}
+
+
+Widget _userImageWidget(){
+  double imageRadius = _deviceHeight * 0.05;
+  return Container(
+    height: imageRadius,
+    width: imageRadius,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      image: DecorationImage(
+        image: NetworkImage(
+          widget.receiverImage
+        )
+      )
+    )
+  );
+}
+
   Widget _textMessageBubble(bool isSender, String text, Timestamp timestamp) {
     List<Color> colorScheme = isSender ? [
       Colors.blue,
@@ -110,7 +160,6 @@ class _ConversationPageState extends State<ConversationPage> {
             style: const TextStyle(
               color: Colors.white70,
             )),
-          Text("You"),
         ]
       ),
     );
