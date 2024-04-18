@@ -60,6 +60,9 @@ class _ConversationPageState extends State<ConversationPage> {
         clipBehavior: Clip.none,
          children: <Widget>[
            _messageListView(),
+           Align(
+            alignment: Alignment.bottomCenter,
+            child: _messageField(context)),
          ]
        );
      }
@@ -68,7 +71,7 @@ class _ConversationPageState extends State<ConversationPage> {
   
   Widget _messageListView() {
     return Container(
-      height: _deviceHeight * 0.8,
+      height: _deviceHeight * 0.9,
       width: _deviceWidth,
       child: StreamBuilder<Conversation>(
         stream: DBService.instance.getConversation(widget.conversationID),
@@ -76,6 +79,7 @@ class _ConversationPageState extends State<ConversationPage> {
           var conversationData = snapshot.data;
           return snapshot.hasData ? 
           ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             itemCount: conversationData!.messages.length,
             itemBuilder: (context, index) {
               var message = conversationData.messages[index];
@@ -99,7 +103,7 @@ Widget _messageListViewChild(bool isSender,  message) {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
                   children: [
                     !isSender ? _userImageWidget() : Container(),
                     _textMessageBubble(isSender , message["message"], message["timestamp"]),
@@ -161,6 +165,91 @@ Widget _userImageWidget(){
               color: Colors.white70,
             )),
         ]
+      ),
+    );
+  }
+
+  Widget _messageField(BuildContext context) {
+    return Container(
+      height: _deviceHeight * 0.1,
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(43, 43, 43, 1),
+        borderRadius: BorderRadius.circular(100)
+      ),
+      margin: EdgeInsets.symmetric(
+        horizontal: _deviceWidth * 0.01, 
+        vertical: _deviceHeight * 0.02
+        ),
+      child: Form(
+    //    key: _formKey,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            _messageTextField(),
+            _sendButton(context),
+            _imageMessageButton(),
+          ],
+        ),
+      
+      )
+    ); 
+  }
+
+
+  Widget _messageTextField() {
+    return SizedBox(
+      width: _deviceWidth * 0.6,
+      child: TextFormField(
+        validator: (value) {
+          if(value!.isEmpty){
+            return "Can't send empty message";
+          }
+          return null;
+        },
+        onChanged: (value) {
+          
+        },
+        onSaved: (value) {
+          
+        },
+        cursorColor: Colors.white,
+        decoration: const InputDecoration(
+          hintText: "Type a Message",
+          border: InputBorder.none,
+        ),
+        autocorrect: false,
+      ),
+    );
+}
+
+  Widget _sendButton(BuildContext context) {
+    return Container(
+      height: _deviceHeight * 0.05,
+      width: _deviceHeight * 0.05,
+      child: IconButton(
+        icon: const Icon(
+          Icons.send,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          
+        }
+      ),
+    );
+  }
+  
+  Widget _imageMessageButton() {
+    return Container(
+      height: _deviceHeight * 0.05,
+      width: _deviceHeight * 0.05,
+      child: FloatingActionButton(
+        onPressed: (){},
+child: const Icon(
+          Icons.camera_enhance,
+          color: Colors.white,
+        ),
       ),
     );
   }
