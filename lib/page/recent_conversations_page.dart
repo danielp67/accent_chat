@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../models/conversation.dart';
+import '../models/message.dart';
 import '../providers/auth_provider.dart';
 import '../services/db_service.dart';
 
@@ -46,6 +47,7 @@ class RecentConversationsPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
+                      print(userData[index].messageType);
                       NavigationService.instance.navigateToRoute(
                         MaterialPageRoute(builder: (context) => 
                         ConversationPage(
@@ -57,7 +59,9 @@ class RecentConversationsPage extends StatelessWidget {
                         ),
                       );},
                     title: Text(userData[index].name),
-                    subtitle: Text(userData[index].lastMessage),
+                    subtitle: Text(
+                       userData[index].messageType == MessageType.text ? 
+                       userData[index].lastMessage : "Attachment : image"),
                     leading: Container(
                       width: 50,
                       height: 50,

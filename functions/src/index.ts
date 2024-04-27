@@ -79,6 +79,7 @@ export const onConversationsUpdated = functions.firestore
             .doc(u).update({
               "lastMessage": lastMessage.message,
               "timestamp": lastMessage.timestamp,
+              "type": lastMessage.type,
               "unseenCount": admin.firestore.FieldValue.increment(1),
             });
         });

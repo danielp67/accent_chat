@@ -2,6 +2,7 @@ import 'package:accent_chat/models/conversation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/contact.dart';
+import '../models/message.dart';
 
 class DBService {
   static DBService instance = DBService();
@@ -33,6 +34,37 @@ Future<void> updateLastSeen(String userID) {
 
   return ref.update({
     "lastSeen": DateTime.now()
+  });
+}
+
+Future<void> sendMessage(String conversationID, Message message) {
+  var ref = db
+      .collection(conversationsCollection)
+      .doc(conversationID);
+  
+  var messageType = "";
+  switch (message.messageType) {
+    case MessageType.text:
+      messageType = "text";
+      break;
+    case MessageType.image:
+      messageType = "image";
+      
+      break;
+    default:
+  }
+  return ref.update({
+    "messages": FieldValue.arrayUnion(
+      [
+        {
+      "message": message.text,
+      "senderID": message.senderID,
+      "timestamp": message.timestamp,
+      "type": messageType
+
+    }
+    ]
+    )
   });
 }
 
@@ -80,10 +112,7 @@ Stream<Conversation> getConversation(String conversationID) {
       .collection(conversationsCollection)
       .doc(conversationID);
       print(ref);
-            print('hihiii');
-
   return ref.snapshots().map((snapshot) {
-  //  print(snapshot);
     return Conversation.fromFirestore(snapshot);
   });
 }

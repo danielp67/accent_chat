@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class CloudStorageService{
@@ -6,6 +7,8 @@ class CloudStorageService{
   late FirebaseStorage storage;
   late Reference reference;
  String profileImages = "profile_images";
+String messages = "messages";
+ String images = "images";
 
  CloudStorageService(){
   storage = FirebaseStorage.instance;
@@ -21,6 +24,25 @@ Future<TaskSnapshot> uploadUserImage(String uid, File image )async {
     print(e);
     rethrow;
   }
+
+}
+
+Future<TaskSnapshot> uploadMediaMessage(String uid, File image )async {
+  var timestamp = DateTime.now();
+  var fileName = basename(image.path);
+  try{
+    return await reference
+    .child(messages)
+    .child(uid)
+    .child(images)
+    .child(fileName)
+    .putFile(image)
+    ;
+  } catch(e){
+    print(e);
+    rethrow;
+
+   }
 
 }
 
