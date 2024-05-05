@@ -89,10 +89,10 @@ class _ConversationPageState extends State<ConversationPage> {
            Timer(
             const Duration(milliseconds: 50), 
             () {
+              print(widget.conversationID);
             if (_listViewController.positions.length>0) {
       _listViewController.jumpTo(_listViewController.position.maxScrollExtent);
     }
-           // _listViewController.jumpTo(_listViewController.position.maxScrollExtent),
           }
             
           );
@@ -342,7 +342,7 @@ Widget _userImageWidget(){
           }
 
         },
-child: const Icon(
+          child: const Icon(
           Icons.camera_enhance,
           color: Colors.white,
         ),

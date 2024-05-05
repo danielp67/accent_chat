@@ -68,30 +68,29 @@ Future<void> sendMessage(String conversationID, Message message) {
   });
 }
 
-/*
+
 Future<void> createOrGetConversation(
   String currentId, 
 String recipientId, 
  Future<void> Function(String) onSucces
- //Future<void> onSucces(String conversationID)
 ) async {
   var ref = db.collection(conversationsCollection);
   var userConversationRef = db.collection(userCollection)
       .doc(currentId)
       .collection(conversationsCollection);
-
   try {
     var conversation = await userConversationRef.doc(recipientId).get();
+
     if (conversation.exists) {
-      return onSucces(conversation.id);
+      return onSucces(conversation.data()!["conversationID"]);
     }else {
       var conversationRef = ref.doc();
-      await conversationRef.set({
+       await conversationRef.set({
         "members": [currentId, recipientId],
         "ownerID": currentId
       });
       return onSucces(conversationRef.id);
-    }
+     }
   } catch (e) {
     print(e);
     
@@ -99,7 +98,6 @@ String recipientId,
 
   }
 
-*/
 
 Stream<Contact> getUserData(String? userID){
   var ref = db.collection(userCollection).doc(userID);

@@ -107,24 +107,24 @@ class SearchPage extends StatefulWidget {
           itemBuilder: (context, index) {
             var userData = usersData[index];
             var currentDatetime = DateTime.now();
-           // var recipientId = userData.id;
+            var recipientId = userData.id;
             var isUserActive = userData.lastSeen.toDate()
-            .isAfter(currentDatetime.subtract(const Duration(hours: 1)));
+            .isAfter(currentDatetime.subtract(const Duration(minutes: 10)));
             return ListTile(
-          /*    onTap: () {
-                DBService.instance.createOrGetConversation(
+              onTap: () {
+                 DBService.instance.createOrGetConversation(
                   _auth.user!.uid,
                   recipientId,
                   (conversationID) {
                   return  NavigationService.instance.navigateToRoute(
-                      MaterialPageRoute(builder:
+                      MaterialPageRoute(
+                        builder:
                       (context) => ConversationPage(conversationID,
-                      recipientId, userData.name, userData.image)
+                      recipientId, userData.image, userData.name)
                     ));
                   }
-                  );
-                  
-              },*/
+                  );       
+              },
               title: Text(usersData[index].name),
               leading: Container(
                 width: 50,
