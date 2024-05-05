@@ -38,8 +38,10 @@ class RecentConversationsPage extends StatelessWidget {
         return StreamBuilder<List<ConversationSnippet>>(
           stream: DBService.instance.getUserConversation(_auth.user!.uid),
           builder: (context, snapshot) {
-            var userData = snapshot.data;
-            return userData != null && userData.length > 0 ? Container(
+           var userData = snapshot.data;
+
+           // print(userData!.length); 
+            return userData != null ? Container(
               height: _height,
               width: _width,
               child: ListView.builder(
@@ -47,7 +49,7 @@ class RecentConversationsPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
-                      print(userData[index].messageType);
+                       print(userData[index].messageType);
                       NavigationService.instance.navigateToRoute(
                         MaterialPageRoute(builder: (context) => 
                         ConversationPage(
@@ -57,7 +59,8 @@ class RecentConversationsPage extends StatelessWidget {
                            userData[index].name,
                         ),
                         ),
-                      );},
+                      ); 
+                      },
                     title: Text(userData[index].name),
                     subtitle: Text(
                        userData[index].messageType == MessageType.text ? 
@@ -69,7 +72,7 @@ class RecentConversationsPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(userData[index].image),
+                          image: NetworkImage(userData![index].image),
                         ),
                       ),
                     ),

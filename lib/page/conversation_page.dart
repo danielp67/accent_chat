@@ -86,17 +86,21 @@ class _ConversationPageState extends State<ConversationPage> {
       child: StreamBuilder<Conversation>(
         stream: DBService.instance.getConversation(widget.conversationID),
         builder: (context, snapshot) {
-          Timer(
+           Timer(
             const Duration(milliseconds: 50), 
-            () => 
-            _listViewController.jumpTo(_listViewController.position.maxScrollExtent)
+            () {
+            if (_listViewController.positions.length>0) {
+      _listViewController.jumpTo(_listViewController.position.maxScrollExtent);
+    }
+           // _listViewController.jumpTo(_listViewController.position.maxScrollExtent),
+          }
+            
           );
-          
           var conversationData = snapshot.data;
-          return snapshot.hasData ? 
+          return snapshot.hasData ?
           ListView.builder(
             controller: _listViewController,
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             itemCount: conversationData!.messages.length,
             itemBuilder: (context, index) {
               var message = conversationData.messages[index];

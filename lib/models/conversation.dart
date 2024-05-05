@@ -25,9 +25,6 @@ class ConversationSnippet {
   factory ConversationSnippet.fromFirestore(DocumentSnapshot snapshot) {
     var data = snapshot.data() as Map<String, dynamic>;
     var messageType = data['type'] == "text" ? MessageType.text : MessageType.image;
-    print(messageType);
-        print(data);
-
     return ConversationSnippet(
       id: snapshot.id,
       name: data['name'],
@@ -35,7 +32,7 @@ class ConversationSnippet {
       image: data['image'],
       lastMessage: data['lastMessage'] ?? '',
       unseenCount: data['unseenCount'],
-      timestamp: data['timestamp'],
+      timestamp: data['timestamp'] ?? Timestamp.now(),
       messageType: messageType,
     );
   }

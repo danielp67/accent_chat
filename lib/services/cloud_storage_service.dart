@@ -18,7 +18,6 @@ String messages = "messages";
 
 Future<TaskSnapshot> uploadUserImage(String uid, File image )async {
   try {
-    print('uploadd');
     return await reference.child('$profileImages/$uid').putFile(image);
   } catch (e) {
     print(e);

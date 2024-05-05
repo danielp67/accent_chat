@@ -1,6 +1,7 @@
 
 
 import 'package:accent_chat/services/db_service.dart';
+import 'package:accent_chat/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../models/contact.dart';
 import '../providers/auth_provider.dart';
+import 'conversation_page.dart';
 
 class SearchPage extends StatefulWidget {
   final double _height;
@@ -25,8 +27,7 @@ class SearchPage extends StatefulWidget {
       late AuthProvider _auth;
 
 
-      _SearchPageState(){
-      }
+      _SearchPageState(){}
 
     @override
     Widget build(BuildContext context) {
@@ -106,9 +107,24 @@ class SearchPage extends StatefulWidget {
           itemBuilder: (context, index) {
             var userData = usersData[index];
             var currentDatetime = DateTime.now();
+           // var recipientId = userData.id;
             var isUserActive = userData.lastSeen.toDate()
             .isAfter(currentDatetime.subtract(const Duration(hours: 1)));
             return ListTile(
+          /*    onTap: () {
+                DBService.instance.createOrGetConversation(
+                  _auth.user!.uid,
+                  recipientId,
+                  (conversationID) {
+                  return  NavigationService.instance.navigateToRoute(
+                      MaterialPageRoute(builder:
+                      (context) => ConversationPage(conversationID,
+                      recipientId, userData.name, userData.image)
+                    ));
+                  }
+                  );
+                  
+              },*/
               title: Text(usersData[index].name),
               leading: Container(
                 width: 50,
