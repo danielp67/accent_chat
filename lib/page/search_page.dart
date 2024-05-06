@@ -27,15 +27,13 @@ class SearchPage extends StatefulWidget {
       late AuthProvider _auth;
 
 
-      _SearchPageState(){}
+      _SearchPageState();
 
     @override
     Widget build(BuildContext context) {
-      return Container(
-        child: ChangeNotifierProvider<AuthProvider>.value(
-          value: AuthProvider.instance, 
-          child: _searchPageUI()),
-      );
+      return ChangeNotifierProvider<AuthProvider>.value(
+        value: AuthProvider.instance, 
+        child: _searchPageUI());
     }
     
      Widget _searchPageUI() {
@@ -100,7 +98,7 @@ class SearchPage extends StatefulWidget {
               );
               }
               
-              return snapshot.hasData && usersData!= null ? Container(
+              return snapshot.hasData && usersData!= null ? SizedBox(
         height: widget._height * 0.7,
         child: ListView.builder(
           itemCount: usersData.length,

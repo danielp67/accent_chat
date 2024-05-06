@@ -81,7 +81,7 @@ class ProfilePage extends StatelessWidget{
 
 
   Widget _userNameWidget(String userName) {
-    return Container(
+    return SizedBox(
       height: _height * 0.05,
       width: _width,
       child: Text(
@@ -96,7 +96,7 @@ class ProfilePage extends StatelessWidget{
   }
   
   Widget _userEmailWidget(String email) {
-    return Container(
+    return SizedBox(
       height: _height * 0.03,
       width: _width,
       child: Text(
@@ -111,7 +111,7 @@ class ProfilePage extends StatelessWidget{
   }
 
   Widget _logoutButton() {
-    return Container(
+    return SizedBox(
       height: _height * 0.06,
       width: _width * 0.8,
       child: MaterialButton(

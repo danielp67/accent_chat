@@ -45,13 +45,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginPageUI() {
-    print(_email);
-    print(_password);
 
     return Builder(
       builder: (context) {
          _auth = Provider.of<AuthProvider>(context);
-         print(_auth);
 
         return Container(
           // color: Colors.red,
@@ -73,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _headingWidget() {
-    return Container(
+    return SizedBox(
       height: _deviceHeight * 0.2,
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -94,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _inputForm() {
-    return Container(
+    return SizedBox(
       height: _deviceHeight * 0.40,
       child: Form(
         key: _formKey,
@@ -119,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _emailTextField() {
     return TextFormField(
       autocorrect: false,
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
       validator: (input) {
         return input!.isNotEmpty && input.contains('@') ? null : 'Enter valide email';
       },
@@ -194,9 +191,8 @@ class _LoginPageState extends State<LoginPage> {
     return GestureDetector(
       onTap: () {
         NavigationService.instance.navigateTo("register");
-        print('hemmo!');
       },
-      child: Container(
+      child: SizedBox(
         height: _deviceHeight * 0.06,
         width: _deviceWidth,
         child: const Text(

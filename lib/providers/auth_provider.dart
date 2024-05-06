@@ -34,7 +34,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void _checkCurrentUserIsAuthenticated()async{
-    user = await _auth.currentUser;
+    user = _auth.currentUser;
     if(user != null){
       notifyListeners();
       _autoLogin();

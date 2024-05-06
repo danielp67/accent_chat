@@ -88,8 +88,8 @@ String recipientId,
        await conversationRef.set({
         "members": [currentId, recipientId],
         "ownerID": currentId
-      });
-      return onSucces(conversationRef.id);
+      }); 
+      return onSucces(conversationRef.id); 
      }
   } catch (e) {
     print(e);

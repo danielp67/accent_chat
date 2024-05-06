@@ -40,7 +40,7 @@ class RecentConversationsPage extends StatelessWidget {
           builder: (context, snapshot) {
            var userData = snapshot.data;
 
-            return userData != null ? Container(
+            return userData != null ? SizedBox(
               height: _height,
               width: _width,
               child: ListView.builder(
@@ -71,7 +71,7 @@ class RecentConversationsPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(100),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(userData![index].image),
+                          image: NetworkImage(userData[index].image),
                         ),
                       ),
                     ),
@@ -94,7 +94,6 @@ class RecentConversationsPage extends StatelessWidget {
   }
   
   Widget _listTileTrailingWidget(Timestamp lastMessageTimestamp) {
-    var timeDifference = lastMessageTimestamp.toDate().difference(DateTime.now());
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,

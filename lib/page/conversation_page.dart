@@ -7,9 +7,7 @@ import 'package:accent_chat/services/cloud_storage_service.dart';
 import 'package:accent_chat/services/db_service.dart';
 import 'package:accent_chat/services/media_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -80,7 +78,7 @@ class _ConversationPageState extends State<ConversationPage> {
   }
   
   Widget _messageListView() {
-    return Container(
+    return SizedBox(
       height: _deviceHeight * 0.9,
       width: _deviceWidth,
       child: StreamBuilder<Conversation>(
@@ -89,15 +87,14 @@ class _ConversationPageState extends State<ConversationPage> {
            Timer(
             const Duration(milliseconds: 50), 
             () {
-              print(widget.conversationID);
-            if (_listViewController.positions.length>0) {
+            if (_listViewController.positions.isNotEmpty) {
       _listViewController.jumpTo(_listViewController.position.maxScrollExtent);
     }
           }
             
           );
           var conversationData = snapshot.data;
-          return snapshot.hasData ?
+          return snapshot.hasData && conversationData!.messages.isNotEmpty ?
           ListView.builder(
             controller: _listViewController,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -107,7 +104,8 @@ class _ConversationPageState extends State<ConversationPage> {
               bool isSender = message["senderID"] == auth.user!.uid;
               return _messageListViewChild(isSender, message);
             }
-          ):
+          ): !snapshot.hasData ?
+          const Center(child: Text("Start a conversation")) :
           const SpinKitWanderingCubes(
             color: Color.fromRGBO(42, 117, 188, 1),
             size: 50.0,
@@ -302,7 +300,7 @@ Widget _userImageWidget(){
 }
 
   Widget _sendButton(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: _deviceHeight * 0.05,
       width: _deviceHeight * 0.05,
       child: IconButton(
@@ -326,7 +324,7 @@ Widget _userImageWidget(){
   }
   
   Widget _imageMessageButton() {
-    return Container(
+    return SizedBox(
       height: _deviceHeight * 0.05,
       width: _deviceHeight * 0.05,
       child: FloatingActionButton(

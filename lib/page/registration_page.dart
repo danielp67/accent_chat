@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:accent_chat/providers/auth_provider.dart';
 import 'package:accent_chat/services/db_service.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../services/navigation_service.dart';
 import '../services/media_service.dart';
@@ -70,7 +69,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Widget _headingWidget() {
-    return Container(
+    return SizedBox(
       height: _deviceHeight * 0.2,
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -91,7 +90,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Widget _inputForm() {
-    return Container(
+    return SizedBox(
       height: _deviceHeight * 0.55,
       child: Form(
         key: _formKey,
@@ -250,7 +249,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         NavigationService.instance.goBack();
 
       },
-      child: Container(
+      child: SizedBox(
         height: _deviceHeight * 0.06,
         width: _deviceWidth,
         child: const Text(
