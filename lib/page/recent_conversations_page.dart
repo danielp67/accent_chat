@@ -20,7 +20,7 @@ class RecentConversationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: _height,
       width: _width,
       child: ChangeNotifierProvider<AuthProvider>.value(
@@ -48,7 +48,6 @@ class RecentConversationsPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {
-                       print(userData[index].messageType);
                       NavigationService.instance.navigateToRoute(
                         MaterialPageRoute(builder: (context) => 
                         ConversationPage(

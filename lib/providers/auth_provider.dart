@@ -7,16 +7,16 @@ import 'package:flutter/widgets.dart';
 import '../services/snackbar_service.dart';
 
 enum AuthStatus {
-  NotAuthenticated,
-  Authenticating,
-  Authenticated,
-  UserNotFound,
-  Error
+  notAuthenticated,
+  authenticating,
+  authenticated,
+  userNotFound,
+  error
 }
 
 class AuthProvider extends ChangeNotifier {
   User? user = FirebaseAuth.instance.currentUser;
-  AuthStatus status = AuthStatus.NotAuthenticated;
+  AuthStatus status = AuthStatus.notAuthenticated;
   late FirebaseAuth _auth;
 
   static AuthProvider instance = AuthProvider();
@@ -42,18 +42,18 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> loginUserWithEmailAndPassword(String email, String password)  async {
-    status = AuthStatus.Authenticating;
+    status = AuthStatus.authenticating;
     notifyListeners();
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       user = result.user!;
-      status = AuthStatus.Authenticated;
+      status = AuthStatus.authenticated;
       SnackBarService.instance.showSnackBarSuccess('Connecté');
       await DBService.instance.updateLastSeen(user!.uid);
       NavigationService.instance.navigateToReplacement('home');
     } catch (e) {
-      status = AuthStatus.Error;
+      status = AuthStatus.error;
             print(e);
       user = null;
       SnackBarService.instance.showSnackBarError('Login failed, please retry');
@@ -62,20 +62,20 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void registerUserWithEmailAndPassword(String email, String password, Future<void> onSucces(String uid))  async {
-  status = AuthStatus.Authenticating;
+  status = AuthStatus.authenticating;
     notifyListeners();
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       user = result.user!;
-      status = AuthStatus.Authenticated;
+      status = AuthStatus.authenticated;
            
       await onSucces(user!.uid);
       SnackBarService.instance.showSnackBarSuccess('Compte crée');
       NavigationService.instance.goBack();
       NavigationService.instance.navigateToReplacement('home');
     } catch (e) {
-      status = AuthStatus.Error;
+      status = AuthStatus.error;
             print(e);
       user = null;
       SnackBarService.instance.showSnackBarError('Creation failed, please retry');
@@ -87,18 +87,18 @@ class AuthProvider extends ChangeNotifier {
   void logoutUser(
     //Future<void> Function() onSucces
     ) async {
-    status = AuthStatus.Authenticating;
+    status = AuthStatus.authenticating;
     notifyListeners();
     try {
       await _auth.signOut();
       user = null;
-      status = AuthStatus.NotAuthenticated;
+      status = AuthStatus.notAuthenticated;
       //await onSucces();
       await NavigationService.instance.navigateToReplacement('login');
       SnackBarService.instance.showSnackBarSuccess('Déconnecté');
       
     } catch (e) {
-      status = AuthStatus.Error;
+      status = AuthStatus.error;
       print(e);
       SnackBarService.instance.showSnackBarError('Erreur à la déconnexion');
     }

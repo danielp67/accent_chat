@@ -15,7 +15,7 @@ class SearchPage extends StatefulWidget {
   final double _height;
   final double _width;
 
-  SearchPage(this._height, this._width, {super.key});
+  const SearchPage(this._height, this._width, {super.key});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
