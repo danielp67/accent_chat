@@ -38,7 +38,7 @@ class ProfilePage extends StatelessWidget{
           stream: DBService.instance.getUserData(_auth.user?.uid),
           builder: (context, snapshot) {
             var userData = snapshot.data;
-          
+          print(snapshot);
             return snapshot.hasData ? Align(
               child: SizedBox(
                 height: _height * 0.5,

@@ -212,7 +212,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   Widget _registerButton() {
-    return auth.status == AuthStatus.Authenticating ?
+    return auth.status == AuthStatus.authenticating ?
          const Center(child: CircularProgressIndicator()) :
         Container(
       height: _deviceHeight * 0.06,

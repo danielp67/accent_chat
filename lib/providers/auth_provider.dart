@@ -35,6 +35,7 @@ class AuthProvider extends ChangeNotifier {
 
   void _checkCurrentUserIsAuthenticated()async{
     user = _auth.currentUser;
+    print(user);
     if(user != null){
       notifyListeners();
       _autoLogin();
@@ -61,7 +62,7 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void registerUserWithEmailAndPassword(String email, String password, Future<void> onSucces(String uid))  async {
+  void registerUserWithEmailAndPassword(String email, String password, Future<void> Function(String uid) onSucces)  async {
   status = AuthStatus.authenticating;
     notifyListeners();
     try {
